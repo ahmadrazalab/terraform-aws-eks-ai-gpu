@@ -1,5 +1,5 @@
 resource "random_string" "name_suffix" {
-  length  = 8
+  length  = 10
   upper   = false
   special = false
 }
@@ -7,7 +7,7 @@ resource "random_string" "name_suffix" {
 resource "aws_eks_cluster" "premium_cluster" {
   name     = "premium-${random_string.name_suffix.result}"
   role_arn = aws_iam_role.eks_autocluster_role.arn
-  version = "1.31"
+  version = "1.32"
 
   access_config {
     authentication_mode = "API"
@@ -18,20 +18,12 @@ resource "aws_eks_cluster" "premium_cluster" {
   }
 
   vpc_config {
-    subnet_ids              = var.private_subnet_ids
+    subnet_ids              = var.public_subnet_ids
     endpoint_private_access = true
-    endpoint_public_access  = false
+    endpoint_public_access  = true
   
   }
-
-
-  # kubernetes_network_config {
-  #   service_ipv4_cidr = "10.100.0.0/16"
-  # }
-
-  # enabled_cluster_log_types = var.enabled_cluster_log_types
-
-  tags = var.cluster_tags
+    tags = var.cluster_tags
 }
 
 
