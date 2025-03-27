@@ -5,14 +5,16 @@ resource "aws_eks_node_group" "application_node_group" {
   subnet_ids      = var.public_subnet_ids
 
   scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 1
+    desired_size = 2
+    max_size     = 2
+    min_size     = 2
   }
 
   instance_types = var.application_instance_types
-
-  ami_type = "AL2_x86_64"  # Amazon Linux 2 AMI for x86_64 architecture
+  ami_type = "AL2_x86_64" 
+  node_repair_config {
+    enabled = true
+  }
 
   tags = {
     Name = "application_node_group"
