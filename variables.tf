@@ -1,13 +1,11 @@
 variable "private_subnet_ids" {
   description = "List of private subnet IDs"
   type        = list(string)
-  # default     = ["subnet-0dfd99820b62e7ae7", "subnet-0f4566efb7ac51c04", "subnet-0198d10b83f4389a0"]
 }
 
 variable "public_subnet_ids" {
   description = "List of private subnet IDs"
   type        = list(string)
-  # default     = ["subnet-0470860ef4ced229b", "subnet-0776058641f02e4d5", "subnet-011111e610f43ff63"]
 }
 
 
