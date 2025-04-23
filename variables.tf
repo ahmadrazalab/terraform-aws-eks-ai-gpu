@@ -68,3 +68,16 @@ variable "node_group_tags" {
     Env  = "development"
   }
 }
+
+
+variable "eks-version" {
+  description = "EKS version"
+  type        = string
+  default     = "1.32"
+}
+
+variable "eks-node-version" {
+  description = "EKS version"
+  type        = string
+  default     = "1.32"
+}

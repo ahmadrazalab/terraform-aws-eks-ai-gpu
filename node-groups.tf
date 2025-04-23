@@ -1,5 +1,6 @@
 resource "aws_eks_node_group" "application_node_group" {
   cluster_name    = aws_eks_cluster.premium_cluster.name
+  version = var.eks-node-version
   node_group_name = "application_node_group-${random_string.name_suffix.result}"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids      = var.public_subnet_ids
@@ -23,13 +24,14 @@ resource "aws_eks_node_group" "application_node_group" {
 
 resource "aws_eks_node_group" "gpu_node_groups" {
   cluster_name    = aws_eks_cluster.premium_cluster.name
+  version = var.eks-node-version
   node_group_name = "gpu_node_groups"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids      = var.public_subnet_ids
 
   scaling_config {
     desired_size = 0
-    max_size     = 0
+    max_size     = 1
     min_size     = 0
   }
 
