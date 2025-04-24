@@ -23,17 +23,3 @@ output "cluster_status" {
   value       = aws_eks_cluster.premium_cluster.status
 }
 
-# output "node_group_names" {
-#   description = "Names of the EKS node groups"
-#   value       = aws_eks_node_group.example[*].node_group_name
-# }
-
-# output "node_group_arns" {
-#   description = "ARNs of the EKS node groups"
-#   value       = aws_eks_node_group.example[*].arn
-# }
-
-# output "node_group_statuses" {
-#   description = "Statuses of the EKS node groups"
-#   value       = aws_eks_node_group.example[*].status
-# }
