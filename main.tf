@@ -7,7 +7,7 @@ resource "random_string" "name_suffix" {
 resource "aws_eks_cluster" "premium_cluster" {
   name     = "premium-${random_string.name_suffix.result}"
   role_arn = aws_iam_role.eks_autocluster_role.arn
-  version = "1.32"
+  version = var.eks-version
 
   access_config {
     authentication_mode = "API"

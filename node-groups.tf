@@ -1,13 +1,18 @@
 resource "aws_eks_node_group" "application_node_group" {
   cluster_name    = aws_eks_cluster.premium_cluster.name
+  version = var.eks-node-version
   node_group_name = "application_node_group-${random_string.name_suffix.result}"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids      = var.public_subnet_ids
 
   scaling_config {
-    desired_size = 2
-    max_size     = 2
-    min_size     = 2
+    desired_size = var.application_node_group_desired_size
+    max_size     = var.application_node_group_max_size
+    min_size     = var.application_node_group_min_size
+  }
+
+update_config {
+    max_unavailable = var.application_node_group_max_unavailable
   }
 
   instance_types = var.application_instance_types
@@ -23,25 +28,34 @@ resource "aws_eks_node_group" "application_node_group" {
 
 resource "aws_eks_node_group" "gpu_node_groups" {
   cluster_name    = aws_eks_cluster.premium_cluster.name
+  version = var.eks-node-version
   node_group_name = "gpu_node_groups"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids      = var.public_subnet_ids
 
   scaling_config {
-    desired_size = 0
-    max_size     = 0
-    min_size     = 0
+    desired_size = var.gpu_node_group_desired_size
+    max_size     = var.gpu_node_group_max_size
+    min_size     = var.gpu_node_group_min_size
   }
 
   instance_types = var.gpu_instance_types
+  # addding taints on all the nodes created by this node group
+  taint {
+    key = "gpu"
+    value = "t4"
+    effect = "NO_SCHEDULE"
+  }
+
 
 update_config {
-    max_unavailable = var.node_group_max_unavailable
+    max_unavailable = var.gpu_node_group_max_unavailable
   }
-#   depends_on = [aws_iam_role_policy_attachment.node_group_policies]
+  # depends_on = [aws_iam_role_policy_attachment.node_group_policies]
   ami_type = "AL2_x86_64_GPU"  # Amazon Linux 2 AMI with GPU support
 
   tags = {
     Name = "gpu_node_groups"
+
   }
 }
