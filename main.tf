@@ -9,6 +9,7 @@ resource "aws_eks_cluster" "premium_cluster" {
   role_arn = aws_iam_role.eks_autocluster_role.arn
   version = var.eks-version
 
+
   access_config {
     authentication_mode = "API"
   }

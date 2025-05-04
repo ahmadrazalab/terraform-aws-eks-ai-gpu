@@ -16,7 +16,9 @@ update_config {
   }
 
   instance_types = var.application_instance_types
-  ami_type = "AL2_x86_64" 
+  disk_size = 20
+  ami_type = "AL2023_ARM_64_STANDARD"  # Amazon Linux 2 AMI with ARM support
+
   node_repair_config {
     enabled = true
   }
@@ -29,7 +31,7 @@ update_config {
 resource "aws_eks_node_group" "gpu_node_groups" {
   cluster_name    = aws_eks_cluster.premium_cluster.name
   version = var.eks-node-version
-  node_group_name = "gpu_node_groups"
+  node_group_name = "gpu_node_groups-${random_string.name_suffix.result}"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids      = var.public_subnet_ids
 
@@ -40,6 +42,7 @@ resource "aws_eks_node_group" "gpu_node_groups" {
   }
 
   instance_types = var.gpu_instance_types
+  disk_size = 40
   # addding taints on all the nodes created by this node group
   taint {
     key = "gpu"
