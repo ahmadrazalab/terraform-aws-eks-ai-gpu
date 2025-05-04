@@ -50,6 +50,12 @@ resource "aws_eks_node_group" "gpu_node_groups" {
     effect = "NO_SCHEDULE"
   }
 
+  # Adding labels to the nodes in this node group
+  labels = {
+    gpu = "t4"
+    node-type = "gpu"
+  }
+
 
 update_config {
     max_unavailable = var.gpu_node_group_max_unavailable

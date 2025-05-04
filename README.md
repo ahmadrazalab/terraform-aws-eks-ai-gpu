@@ -3,7 +3,7 @@
 ## Overview
 This project sets up an AWS EKS cluster with Terraform using a modular structure. It provisions networking, EKS cluster, IAM roles, and policies, including access management using `aws_eks_access_policy_association`.
 
-## Directory Structure
+## Directory Structure (in-progress)
 ```
 ├── modules/
 │   ├── eks/

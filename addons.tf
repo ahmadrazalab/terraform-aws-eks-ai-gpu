@@ -15,7 +15,6 @@ resource "aws_eks_addon" "coredns" {
   cluster_name = aws_eks_cluster.premium_cluster.name
   addon_name   = "coredns"
   addon_version = "v1.11.4-eksbuild.10"  # v1.11.4-eksbuild.2 # old 
-  # depends_on = [aws_eks_node_group.application_node_group, aws_eks_node_group.gpu_node_group]
 }
 
 
@@ -35,4 +34,6 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   cluster_name    = aws_eks_cluster.premium_cluster.name
   addon_name      = "aws-ebs-csi-driver"
   addon_version   = "v1.42.0-eksbuild.1"
+  service_account_role_arn = aws_iam_role.eks_pod_identity_ebs_csi_driver_role.arn
+  
 }
