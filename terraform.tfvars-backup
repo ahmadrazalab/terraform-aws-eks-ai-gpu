@@ -1,0 +1,22 @@
+private_subnet_ids = ["subnet-", "subnet-", "subnet-"]
+public_subnet_ids = ["subnet-", "subnet-", "subnet-"]
+
+application_instance_types = ["t4g.medium"]
+gpu_instance_types = ["g4dn.xlarge"]    # GPU_N.T4 #4vCPU #16RAM  #x86_64  
+eks-node-version = "1.32"
+eks-version = "1.32"
+
+application_node_group_desired_size = 1
+application_node_group_max_size = 2
+application_node_group_min_size = 1
+application_node_group_max_unavailable = 1
+
+gpu_node_group_desired_size = 0
+gpu_node_group_max_size = 1
+gpu_node_group_min_size = 0
+gpu_node_group_max_unavailable = 1
+
+node_group_tags = {
+  Name = "Premium EKS NodeG-1"
+  Env  = "development"
+}
