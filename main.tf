@@ -32,4 +32,27 @@ resource "aws_eks_cluster" "premium_cluster" {
 }
 
 
+## OIDC Provider for EKS
+# This provider is used for the AWS Load Balancer Controller
+# and other AWS services that require IAM roles for service accounts.
 
+# Get EKS cluster details (must match your existing EKS cluster name)
+data "aws_eks_cluster" "oidc" {
+  name = aws_eks_cluster.premium_cluster.name
+}
+
+# Get the TLS thumbprint from the OIDC issuer
+data "tls_certificate" "oidc_thumbprint" {
+  url = data.aws_eks_cluster.oidc.identity[0].oidc[0].issuer
+}
+
+# Create the OIDC provider
+resource "aws_iam_openid_connect_provider" "eks_oidc" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.oidc_thumbprint.certificates[0].sha1_fingerprint]
+  url             = data.aws_eks_cluster.oidc.identity[0].oidc[0].issuer
+
+  tags = {
+    Name = "eks-oidc-provider"
+  }
+}
