@@ -14,7 +14,7 @@ resource "aws_eks_addon" "vpc_cni" {
 resource "aws_eks_addon" "coredns" {
   cluster_name = aws_eks_cluster.premium_cluster.name
   addon_name   = "coredns"
-  addon_version = "v1.11.4-eksbuild.10"  # v1.11.4-eksbuild.2 # old 
+  addon_version = "v1.11.4-eksbuild.10"  
 }
 
 
