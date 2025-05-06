@@ -35,7 +35,6 @@ resource "aws_eks_cluster" "premium_cluster" {
 ## OIDC Provider for EKS
 # This provider is used for the AWS Load Balancer Controller
 # and other AWS services that require IAM roles for service accounts.
-
 # Get EKS cluster details (must match your existing EKS cluster name)
 data "aws_eks_cluster" "oidc" {
   name = aws_eks_cluster.premium_cluster.name

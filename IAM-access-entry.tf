@@ -1,4 +1,3 @@
-
 #  ✅ EKS Access Entries (Group-based)
 # Admin Group Access Entry
 resource "aws_eks_access_entry" "admins" {

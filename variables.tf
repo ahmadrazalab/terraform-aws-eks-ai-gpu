@@ -109,3 +109,31 @@ variable "eks-node-version" {
   type        = string
   default     = "1.32"
 }
+
+
+variable "arm_app_instance_types" {
+    description = "Instance types for the EKS node group"
+    type        = list(string)
+    default     = ["t3a.medium"]
+}
+
+variable "arm_app_node_group_desired_size" {
+  description = "Desired size of the node group"
+  type        = number
+  default     = 1
+}
+variable "arm_app_node_group_max_size" {
+  description = "Maximum size of the node group"
+  type        = number
+  default     = 2
+}
+variable "arm_app_node_group_min_size" {
+  description = "Minimum size of the node group"
+  type        = number
+  default     = 1
+}
+variable "arm_app_node_group_max_unavailable" {
+  description = "Maximum unavailable nodes during update"
+  type        = number
+  default     = 1
+}
