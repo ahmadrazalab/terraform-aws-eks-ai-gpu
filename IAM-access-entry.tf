@@ -1,44 +1,60 @@
-# resource "aws_eks_access_entry" "root" {
-#   cluster_name   = aws_eks_cluster.premium_cluster.name
-#   principal_arn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-#   type           = "STANDARD"
-#   user_name      = "root"
-# }
 
+#  ✅ EKS Access Entries (Group-based)
+# Admin Group Access Entry
+resource "aws_eks_access_entry" "admins" {
+  cluster_name  = aws_eks_cluster.premium_cluster.name
+  principal_arn = aws_iam_group.eks_admins.arn
+  type          = "STANDARD"
+  user_name     = "eks-admins"
+}
 
+# Security Group Access Entry
+resource "aws_eks_access_entry" "security" {
+  cluster_name  = aws_eks_cluster.premium_cluster.name
+  principal_arn = aws_iam_group.eks_security.arn
+  type          = "STANDARD"
+  user_name     = "eks-security"
+}
 
-# # ========== EKS Access Entries ==========
-# resource "aws_eks_access_entry" "admin_user" {
-#   cluster_name   = aws_eks_cluster.premium_cluster.name
-#   principal_arn  = aws_iam_user.admin_user.arn
-#   type           = "STANDARD"
-#   user_name      = "admin-user"
-# }
+# Dev Group Access Entry
+resource "aws_eks_access_entry" "devs" {
+  cluster_name  = aws_eks_cluster.premium_cluster.name
+  principal_arn = aws_iam_group.eks_devs.arn
+  type          = "STANDARD"
+  user_name     = "eks-devs"
+}
 
-# resource "aws_eks_access_policy_association" "admin_user_policy" {
-#   cluster_name   = aws_eks_cluster.premium_cluster.name
-#   policy_arn     = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-#   principal_arn  = aws_iam_user.admin_user.arn
+# ✅ EKS Policy Associations
+# Admin Group - Full Access to Cluster
+resource "aws_eks_access_policy_association" "admin_policy" {
+  cluster_name  = aws_eks_cluster.premium_cluster.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  principal_arn = aws_iam_group.eks_admins.arn
 
-#   access_scope {
-#     type = "cluster"
-#   }
-# }
+  access_scope {
+    type = "cluster"
+  }
+}
 
-# resource "aws_eks_access_entry" "readonly_user" {
-#   cluster_name   = aws_eks_cluster.premium_cluster.name
-#   principal_arn  = aws_iam_user.readonly_user.arn
-#   type           = "STANDARD"
-#   user_name      = "readonly-user"
-# }
+# Security Group - View Access to Cluster
+resource "aws_eks_access_policy_association" "security_policy" {
+  cluster_name  = aws_eks_cluster.premium_cluster.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+  principal_arn = aws_iam_group.eks_security.arn
 
-# resource "aws_eks_access_policy_association" "readonly_user_policy" {
-#   cluster_name   = aws_eks_cluster.premium_cluster.name
-#   policy_arn     = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
-#   principal_arn  = aws_iam_user.readonly_user.arn
+  access_scope {
+    type = "cluster"
+  }
+}
 
-#   access_scope {
-#     type       = "namespace"
-#     namespaces = ["staging"]
-#   }
-# }
+# Dev Group - View Access Only in 'staging' Namespace
+resource "aws_eks_access_policy_association" "dev_policy" {
+  cluster_name  = aws_eks_cluster.premium_cluster.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+  principal_arn = aws_iam_group.eks_devs.arn
+
+  access_scope {
+    type       = "namespace"
+    namespaces = ["staging"]
+  }
+}

@@ -1,43 +1,57 @@
 # ========== IAM Groups ==========
+#  ✅ IAM Groups (Reusable)
 resource "aws_iam_group" "eks_admins" {
   name = "eks-admins"
 }
 
-resource "aws_iam_group" "devs-grp" {
+resource "aws_iam_group" "eks_security" {
+  name = "eks-security"
+}
+
+resource "aws_iam_group" "eks_devs" {
   name = "eks-devs"
 }
 
-
-
 # # ========== IAM USERS ==========
 
-# asif 
-resource "aws_iam_user" "dev_asif" {
-  name = "dev_asif"
+# === IAM Users ===
+resource "aws_iam_user" "ahmad" {
+  name = "ahmad"
 }
 
-resource "aws_iam_user_group_membership" "devs-grp_membership_asif" {
-  user = aws_iam_user.dev_asif.name
-  groups = [aws_iam_group.devs-grp.name]
+resource "aws_iam_user" "asif" {
+  name = "asif"
 }
 
-# yogesh 
-resource "aws_iam_user" "dev_yogesh" {
-  name = "dev_yogesh"
+resource "aws_iam_user" "yogesh" {
+  name = "yogesh"
 }
 
-resource "aws_iam_user_group_membership" "devs-grp_membership_yogesh" {
-  user = aws_iam_user.dev_yogesh.name
-  groups = [aws_iam_group.devs-grp.name]
+resource "aws_iam_user" "vipin" {
+  name = "vipin"
 }
 
-# ahmad
-resource "aws_iam_user" "eks_admin_ahmad" {
-  name = "eks-admin-ahmad"
-}
+# === Group Memberships ===
 
-resource "aws_iam_user_group_membership" "eks_admins_membership_ahmad" {
-  user = aws_iam_user.eks_admin_ahmad.name
+# Ahmad → eks-admins
+resource "aws_iam_user_group_membership" "ahmad_membership" {
+  user   = aws_iam_user.ahmad.name
   groups = [aws_iam_group.eks_admins.name]
 }
 
+# Asif → eks-security
+resource "aws_iam_user_group_membership" "asif_membership" {
+  user   = aws_iam_user.asif.name
+  groups = [aws_iam_group.eks_security.name]
+}
+
+# Yogesh & Vipin → eks-devs
+resource "aws_iam_user_group_membership" "yogesh_membership" {
+  user   = aws_iam_user.yogesh.name
+  groups = [aws_iam_group.eks_devs.name]
+}
+
+resource "aws_iam_user_group_membership" "vipin_membership" {
+  user   = aws_iam_user.vipin.name
+  groups = [aws_iam_group.eks_devs.name]
+}
