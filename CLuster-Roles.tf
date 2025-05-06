@@ -1,4 +1,4 @@
-# AUTO MODE CLUSTER ROLE
+# AUTO MODE CLUSTER ROLE # Cluster IAM role
 resource "aws_iam_role" "eks_autocluster_role" {
   name = "AmazonEKSAutoClusterRole"
 
@@ -17,10 +17,11 @@ resource "aws_iam_role" "eks_autocluster_role" {
   })
 }
 
+# Auto Mode CLuster IAM ROLE
 resource "aws_iam_role_policy_attachment" "eks_autocluster_policies" {
   for_each = toset([
     "arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy",
-    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",    # Non Auto Cluster Role
     "arn:aws:iam::aws:policy/AmazonEKSComputePolicy",
     "arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy",
     "arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy"
@@ -30,8 +31,7 @@ resource "aws_iam_role_policy_attachment" "eks_autocluster_policies" {
   role       = aws_iam_role.eks_autocluster_role.name
 }
 
-# AUTO NODE CLUSTER ROLE 
-
+# EKS AUTO MODE : AUTO NODE CLUSTER ROLE 
 resource "aws_iam_role" "eks_auto_node_role" {
   name = "AmazonEKSAutoNodeRole"
 
@@ -57,50 +57,16 @@ resource "aws_iam_role_policy_attachment" "eks_auto_node_policies" {
   role       = aws_iam_role.eks_auto_node_role.name
 }
 
+###
 
-# # AmazonEKSPodIdentityAmazonVPCCNIRole
 
-resource "aws_iam_role" "eks_pod_identity_role" {
-  name = "AmazonEKSPodIdentityAmazonVPCCNIRole"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect    = "Allow",
-      Principal = {
-        Service = "pods.eks.amazonaws.com"
-      },
-      Action    = ["sts:AssumeRole", "sts:TagSession"]
-    }]
-  })
-}
 
-resource "aws_iam_role_policy_attachment" "eks_pod_identity_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.eks_pod_identity_role.name
-}
 
-## AmazonEKSPodIdentityAmazonEBSCSIDriverRole
 
-resource "aws_iam_role" "eks_pod_identity_ebs_csi_driver_role" {
-  name = "AmazonEKSPodIdentityAmazonEBSCSIDriverRole"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect    = "Allow",
-      Principal = {
-        Service = "pods.eks.amazonaws.com"
-      },
-      Action    = ["sts:AssumeRole", "sts:TagSession"]
-    }]
-  })
-}
 
-resource "aws_iam_role_policy_attachment" "eks_pod_identity_ebs_csi_driver_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-  role       = aws_iam_role.eks_pod_identity_ebs_csi_driver_role.name
-}
+
 
 
 
@@ -136,4 +102,5 @@ resource "aws_iam_role_policy_attachment" "cni_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.node_group_role.name
 }
+
 
