@@ -17,23 +17,23 @@ variable "enabled_cluster_log_types" {
 variable "cluster_tags" {
   description = "Tags to apply to the EKS cluster"
   type        = map(string)
-  default     = {
+  default = {
     Name = "Premium EKS Cluster"
     Env  = "development"
   }
 }
 
 variable "application_instance_types" {
-    description = "Instance types for the EKS node group"
-    type        = list(string)
-    default     = ["t3.small"]
+  description = "Instance types for the EKS node group"
+  type        = list(string)
+  default     = ["t3.small"]
 }
 
 variable "gpu_instance_types" {
-    description = "Instance types for the EKS node group"
-    type        = list(string)
-    default     = ["t3.small"]
-} 
+  description = "Instance types for the EKS node group"
+  type        = list(string)
+  default     = ["t3.small"]
+}
 
 
 
@@ -91,7 +91,7 @@ variable "gpu_node_group_max_unavailable" {
 variable "node_group_tags" {
   description = "Tags to apply to the node group"
   type        = map(string)
-  default     = {
+  default = {
     Name = "Premium EKS NodeG-1"
     Env  = "development"
   }
@@ -112,9 +112,9 @@ variable "eks-node-version" {
 
 
 variable "arm_app_instance_types" {
-    description = "Instance types for the EKS node group"
-    type        = list(string)
-    default     = ["t3a.medium"]
+  description = "Instance types for the EKS node group"
+  type        = list(string)
+  default     = ["t3a.medium"]
 }
 
 variable "arm_app_node_group_desired_size" {

@@ -8,11 +8,11 @@ resource "aws_iam_role" "AmazonEKSPodIdentityAmazonVPCCNIRole" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect    = "Allow",
+      Effect = "Allow",
       Principal = {
         Service = "pods.eks.amazonaws.com"
       },
-      Action    = ["sts:AssumeRole", "sts:TagSession"]
+      Action = ["sts:AssumeRole", "sts:TagSession"]
     }]
   })
 }
@@ -30,11 +30,11 @@ resource "aws_iam_role" "AmazonEKSPodIdentityAmazonEBSCSIDriverRole" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect    = "Allow",
+      Effect = "Allow",
       Principal = {
         Service = "pods.eks.amazonaws.com"
       },
-      Action    = ["sts:AssumeRole", "sts:TagSession"]
+      Action = ["sts:AssumeRole", "sts:TagSession"]
     }]
   })
 }

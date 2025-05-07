@@ -5,11 +5,11 @@ resource "aws_iam_role" "eks_autocluster_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect    = "Allow",
+      Effect = "Allow",
       Principal = {
         Service = "eks.amazonaws.com"
       },
-      Action    = [
+      Action = [
         "sts:TagSession",
         "sts:AssumeRole"
       ]
@@ -21,7 +21,7 @@ resource "aws_iam_role" "eks_autocluster_role" {
 resource "aws_iam_role_policy_attachment" "eks_autocluster_policies" {
   for_each = toset([
     "arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy",
-    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",    # Non Auto Cluster Role
+    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy", # Non Auto Cluster Role
     "arn:aws:iam::aws:policy/AmazonEKSComputePolicy",
     "arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy",
     "arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy"
@@ -38,11 +38,11 @@ resource "aws_iam_role" "eks_auto_node_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect    = "Allow",
+      Effect = "Allow",
       Principal = {
         Service = "ec2.amazonaws.com"
       },
-      Action    = "sts:AssumeRole"
+      Action = "sts:AssumeRole"
     }]
   })
 }
@@ -59,18 +59,6 @@ resource "aws_iam_role_policy_attachment" "eks_auto_node_policies" {
 
 ###
 
-
-
-
-
-
-
-
-
-
-
-
-
 ## EKS managed Node Groups ROLE
 
 resource "aws_iam_role" "node_group_role" {
@@ -79,11 +67,11 @@ resource "aws_iam_role" "node_group_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect    = "Allow",
+      Effect = "Allow",
       Principal = {
         Service = "ec2.amazonaws.com"
       },
-      Action    = "sts:AssumeRole"
+      Action = "sts:AssumeRole"
     }]
   })
 }
